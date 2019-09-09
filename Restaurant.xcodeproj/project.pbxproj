@@ -10,6 +10,7 @@
 		4E5FACC62325422A00F4BB71 /* RestaurantDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */; };
 		4E5FACC82325423E00F4BB71 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5FACC72325423E00F4BB71 /* BaseVC.swift */; };
 		4E5FACCA232543FB00F4BB71 /* RestaurantDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5FACC9232543FB00F4BB71 /* RestaurantDetailsCell.swift */; };
+		4E649611232683620034172D /* RestaurantsCored.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4E64960F232683620034172D /* RestaurantsCored.xcdatamodeld */; };
 		4E7BDD7523265EF700BFF0DC /* CreatQuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7BDD7423265EF700BFF0DC /* CreatQuestCell.swift */; };
 		4E7D832D232643490076E4E4 /* DetailStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D832C232643490076E4E4 /* DetailStackView.swift */; };
 		4E7D832F23264C2C0076E4E4 /* CreateRestaurantVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D832E23264C2C0076E4E4 /* CreateRestaurantVC.swift */; };
@@ -32,6 +33,7 @@
 		4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailsVC.swift; sourceTree = "<group>"; };
 		4E5FACC72325423E00F4BB71 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		4E5FACC9232543FB00F4BB71 /* RestaurantDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailsCell.swift; sourceTree = "<group>"; };
+		4E649610232683620034172D /* RestaurantsCored.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RestaurantsCored.xcdatamodel; sourceTree = "<group>"; };
 		4E7BDD7423265EF700BFF0DC /* CreatQuestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatQuestCell.swift; sourceTree = "<group>"; };
 		4E7D832C232643490076E4E4 /* DetailStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStackView.swift; sourceTree = "<group>"; };
 		4E7D832E23264C2C0076E4E4 /* CreateRestaurantVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRestaurantVC.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				4E80472C23251E6000B277BA /* LaunchScreen.storyboard */,
 				4E80472F23251E6000B277BA /* Info.plist */,
 				4E80473823251F4A00B277BA /* ExtensionUivew.swift */,
+				4E64960F232683620034172D /* RestaurantsCored.xcdatamodeld */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				4E7D832D232643490076E4E4 /* DetailStackView.swift in Sources */,
 				4E80473D2325216300B277BA /* RestaurantModel.swift in Sources */,
 				4E7D833623264F9B0076E4E4 /* CreateFieldsCell.swift in Sources */,
+				4E649611232683620034172D /* RestaurantsCored.xcdatamodeld in Sources */,
 				4E7D833123264CF00076E4E4 /* PickedPhototCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -437,6 +441,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4E64960F232683620034172D /* RestaurantsCored.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4E649610232683620034172D /* RestaurantsCored.xcdatamodel */,
+			);
+			currentVersion = 4E649610232683620034172D /* RestaurantsCored.xcdatamodel */;
+			path = RestaurantsCored.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4E80471823251E5F00B277BA /* Project object */;
 }

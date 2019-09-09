@@ -17,13 +17,13 @@ class CreatQuestCell: BaseCell {
         return la
     }()
     lazy var yesButton :UIButton = {
-        let bt = UIButton(title: "Yes", titleColor: .white, font: .systemFont(ofSize: 30), backgroundColor: .orange, target: self, action: #selector(handleYesTapped))
+        let bt = UIButton(title: "Yes", titleColor: .white, font: .systemFont(ofSize: 30), backgroundColor: .gray, target: self, action: #selector(handleYesTapped))
         //        bt.constrainHeight(constant: 40)
         bt.constrainWidth(constant: 80)
         return bt
     }()
     lazy var noButton : UIButton = {
-        let bt = UIButton(title: "No", titleColor: .white, font: .systemFont(ofSize: 30), backgroundColor: .gray, target: self, action: #selector(handleNoTapped))
+        let bt = UIButton(title: "No", titleColor: .white, font: .systemFont(ofSize: 30), backgroundColor: .red, target: self, action: #selector(handleNoTapped))
         //        bt.constrainHeight(constant: 40)
         bt.constrainWidth(constant: 80)
         return bt

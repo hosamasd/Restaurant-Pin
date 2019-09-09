@@ -16,7 +16,7 @@ class CreateRestaurantVC: UITableViewController {
     let thirdCelllID = "CelllID"
     
     var name,typle,location,phone:String?
-    var isBeenVisited:Bool?
+    var isBeenVisited:Bool = false
     
     var images:UIImage?
     
@@ -104,23 +104,33 @@ class CreateRestaurantVC: UITableViewController {
     }
     
     func checkData()  {
-        let indexpathForName = IndexPath(row: 1, section: 0); let indexpathForType = IndexPath(row: 2, section: 0); let indexpathForLocation = IndexPath(row: 3, section: 0)
-        let indexpathForPhone = IndexPath(row: 4, section: 0)
+        var indexs:[String] = [String]()
         
-        let nameCell = tableView.cellForRow(at: indexpathForName) as! CreateFieldsCell
-        let locationCell = tableView.cellForRow(at: indexpathForLocation) as! CreateFieldsCell
+        for x in 1...4 {
+            let index = IndexPath(row: x, section: 0)
+            let cell = tableView.cellForRow(at: index) as! CreateFieldsCell
+           guard let val = cell.valueLabel.text, !val.isEmpty  else {showAlert()  ; return }
+            indexs.append(val)
+        }
         
-        let phoneCell =  tableView.cellForRow(at: indexpathForPhone) as! CreateFieldsCell
-        let typeCell =  tableView.cellForRow(at: indexpathForType) as! CreateFieldsCell
-        
-       guard let names = nameCell.valueLabel.text,
-        let phones = phoneCell.valueLabel.text,
-        let types = typeCell.valueLabel.text,  let locations = locationCell.valueLabel.text
-        else {showAlert()  ; return }
-       
-        
-            name = names; phone = phones ; location = locations ; typle = types
+//        let indexpathForName = IndexPath(row: 1, section: 0); let indexpathForType = IndexPath(row: 2, section: 0); let indexpathForLocation = IndexPath(row: 3, section: 0)
+//        let indexpathForPhone = IndexPath(row: 4, section: 0)
+//
+//        let nameCell = tableView.cellForRow(at: indexpathForName) as! CreateFieldsCell
+//        let locationCell = tableView.cellForRow(at: indexpathForLocation) as! CreateFieldsCell
+//
+//        let phoneCell =  tableView.cellForRow(at: indexpathForPhone) as! CreateFieldsCell
+//        let typeCell =  tableView.cellForRow(at: indexpathForType) as! CreateFieldsCell
+//
+//       guard let names = nameCell.valueLabel.text,
+//        let phones = phoneCell.valueLabel.text,
+//        let types = typeCell.valueLabel.text,  let locations = locationCell.valueLabel.text
+//        else {showAlert()  ; return }
+//
+//
+//            name = names; phone = phones ; location = locations ; typle = types
         print(isBeenVisited)
+        print(indexs)
     }
     
    @objc func handelCancel()  {
