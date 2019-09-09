@@ -6,9 +6,11 @@
 //  Copyright © 2019 hosam. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct RestaurantModel {
-    let name,imageName,type,location:String
+    let name,type,location,phone:String
+    let isVisited:Bool
+    let image: UIImage
     
 }

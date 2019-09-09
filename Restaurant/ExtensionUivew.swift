@@ -184,6 +184,10 @@ extension UIView{
         stacks.distribution =  distribution
         return stacks
     }
+    
+    func isHide(_ hide:Bool)  {
+        self.isHidden = hide
+    }
 }
 
 struct AnchoredConstraints {

@@ -20,7 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         let layout = UICollectionViewFlowLayout()
         
-        window?.rootViewController = UINavigationController(rootViewController: ViewController(collectionViewLayout: layout))
+//        window?.rootViewController = UINavigationController(rootViewController: CreateRestaurantVC())
+        window?.rootViewController = UINavigationController(rootViewController: RestaurantHomeVC(collectionViewLayout: layout))
+//
+//        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+//            statusBar.backgroundColor = UIColor.white
+//        }
+        
+    UINavigationBar.appearance().barTintColor = UIColor.init(r: 216, g: 74, b: 32)  
+        UINavigationBar.appearance().tintColor = UIColor.white
         return true
     }
 
