@@ -17,6 +17,9 @@
 		4E7D833123264CF00076E4E4 /* PickedPhototCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D833023264CF00076E4E4 /* PickedPhototCell.swift */; };
 		4E7D833423264F3A0076E4E4 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D833323264F3A0076E4E4 /* BaseCell.swift */; };
 		4E7D833623264F9B0076E4E4 /* CreateFieldsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7D833523264F9B0076E4E4 /* CreateFieldsCell.swift */; };
+		4E7E1BE72327D30A00CF6B1F /* PageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7E1BE62327D30A00CF6B1F /* PageModel.swift */; };
+		4E7E1BE92327D35C00CF6B1F /* WelcomePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7E1BE82327D35C00CF6B1F /* WelcomePageVC.swift */; };
+		4E7E1BEB2327D5BA00CF6B1F /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7E1BEA2327D5BA00CF6B1F /* PageCell.swift */; };
 		4E80472423251E5F00B277BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80472323251E5F00B277BA /* AppDelegate.swift */; };
 		4E80472623251E5F00B277BA /* RestaurantHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80472523251E5F00B277BA /* RestaurantHomeVC.swift */; };
 		4E80472923251E5F00B277BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E80472723251E5F00B277BA /* Main.storyboard */; };
@@ -41,6 +44,9 @@
 		4E7D833023264CF00076E4E4 /* PickedPhototCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickedPhototCell.swift; sourceTree = "<group>"; };
 		4E7D833323264F3A0076E4E4 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		4E7D833523264F9B0076E4E4 /* CreateFieldsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFieldsCell.swift; sourceTree = "<group>"; };
+		4E7E1BE62327D30A00CF6B1F /* PageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModel.swift; sourceTree = "<group>"; };
+		4E7E1BE82327D35C00CF6B1F /* WelcomePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePageVC.swift; sourceTree = "<group>"; };
+		4E7E1BEA2327D5BA00CF6B1F /* PageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
 		4E80472023251E5F00B277BA /* Restaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E80472323251E5F00B277BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E80472523251E5F00B277BA /* RestaurantHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantHomeVC.swift; sourceTree = "<group>"; };
@@ -76,6 +82,14 @@
 				4E7BDD7423265EF700BFF0DC /* CreatQuestCell.swift */,
 			);
 			path = Create;
+			sourceTree = "<group>";
+		};
+		4E7E1BE52327D22500CF6B1F /* PagesControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4E7E1BE82327D35C00CF6B1F /* WelcomePageVC.swift */,
+			);
+			path = PagesControllers;
 			sourceTree = "<group>";
 		};
 		4E80471723251E5F00B277BA = {
@@ -115,6 +129,7 @@
 		4E80473523251E6A00B277BA /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				4E7E1BE52327D22500CF6B1F /* PagesControllers */,
 				4E5FACC72325423E00F4BB71 /* BaseVC.swift */,
 				4E80472523251E5F00B277BA /* RestaurantHomeVC.swift */,
 				4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */,
@@ -133,6 +148,7 @@
 				4E5FACC9232543FB00F4BB71 /* RestaurantDetailsCell.swift */,
 				4E7D832C232643490076E4E4 /* DetailStackView.swift */,
 				4E7D833223264CF30076E4E4 /* Create */,
+				4E7E1BEA2327D5BA00CF6B1F /* PageCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -141,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				4E80473C2325216300B277BA /* RestaurantModel.swift */,
+				4E7E1BE62327D30A00CF6B1F /* PageModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -229,10 +246,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E7E1BE92327D35C00CF6B1F /* WelcomePageVC.swift in Sources */,
 				4E80472623251E5F00B277BA /* RestaurantHomeVC.swift in Sources */,
 				4E80473B23251F9700B277BA /* RestaurantCell.swift in Sources */,
 				4EA4D8F823263C4800B5C7AB /* FullyFunctionalMapVC.swift in Sources */,
 				4E80472423251E5F00B277BA /* AppDelegate.swift in Sources */,
+				4E7E1BE72327D30A00CF6B1F /* PageModel.swift in Sources */,
+				4E7E1BEB2327D5BA00CF6B1F /* PageCell.swift in Sources */,
 				4E80473923251F4A00B277BA /* ExtensionUivew.swift in Sources */,
 				4EDA0D852327A0180021BE6A /* ReviewVC.swift in Sources */,
 				4E7BDD7523265EF700BFF0DC /* CreatQuestCell.swift in Sources */,
