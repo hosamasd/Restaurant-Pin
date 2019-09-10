@@ -24,6 +24,11 @@ class RestaurantHomeVC: BaseVC {
         super.viewDidLoad()
         setupCollectionViews()
         
+//        fetchData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchData()
     }
     
@@ -47,14 +52,13 @@ class RestaurantHomeVC: BaseVC {
         return .init(width: view.frame.width, height: 120)
     }
     
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let res = restaurantsArray[indexPath.item]
         
-        let detail = RestaurantDetailsVC(rest: res)
-//        detail.restaurant = res
-        navigationController?.pushViewController(detail, animated: true)
+       createAlert(index: indexPath.item)
     }
 
+    
     
     override func setupNavigastionItem() {
         self.definesPresentationContext = true
@@ -65,7 +69,8 @@ class RestaurantHomeVC: BaseVC {
         definesPresentationContext = true
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
-        searchController.searchBar.barTintColor = .white
+        searchController.searchBar.barTintColor = UIColor(r: 218, g: 100, b: 70)
+        searchController.searchBar.tintColor = .white
         searchController.searchBar.placeholder = "Search for Restaurants"
         
         navigationItem.title = "Restaurant Pin"
@@ -76,8 +81,19 @@ class RestaurantHomeVC: BaseVC {
     }
     
     override func setupCollectionViews()  {
+        
         collectionView.backgroundColor = .white
         collectionView.register(RestaurantCell.self, forCellWithReuseIdentifier: cellID)
+    }
+    
+    func saveData()  {
+        do {
+            try context.save()
+            print("saved")
+        } catch let err {
+            print(err.localizedDescription)
+        }
+//        collectionView.reloadData()
     }
     
     func fetchData()  {
@@ -89,6 +105,7 @@ class RestaurantHomeVC: BaseVC {
         } catch let err {
             print(err.localizedDescription)
         }
+        collectionView.reloadData()
     }
     
   @objc  func handleAdd()  {
@@ -119,7 +136,37 @@ extension RestaurantHomeVC: UISearchResultsUpdating{
     }
 
     func filterUsers(text:String)  {
-        filterRestaurantsArray = restaurantsArray.filter({$0.name?.lowercased().range(of: text )  != nil})
+        filterRestaurantsArray = restaurantsArray.filter({$0.name?.lowercased().range(of: text )  != nil || $0.location?.lowercased().range(of: text )  != nil})
     }
     
+    func createAlert(index:Int)  {
+        
+        let alert = UIAlertController(title: "Restaruant Pin", message: "choose action", preferredStyle: .actionSheet)
+        let display = UIAlertAction(title: "Display", style: .default) { [weak self] (_) in
+            guard let res = self?.restaurantsArray[index] else {return}
+            
+            let detail = RestaurantDetailsVC(rest: res)
+            //        detail.restaurant = res
+            self?.navigationController?.pushViewController(detail, animated: true)
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (_) in
+            guard let res = self?.restaurantsArray[index] else {return}
+            
+            context.delete(res)
+            self?.restaurantsArray.remove(at: index)
+            self?.saveData()
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+            alert.dismiss(animated: true)
+        }
+        
+        alert.addAction(display)
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        present(alert, animated: true)
+    }
 }
