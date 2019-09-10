@@ -19,20 +19,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow()
         window?.makeKeyAndVisible()
-        let layout = UICollectionViewFlowLayout()
         
-        window?.rootViewController =  WelcomePageVC()
-//        window?.rootViewController = UINavigationController(rootViewController: RestaurantHomeVC(collectionViewLayout: layout))
-//
-//        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
-//            statusBar.backgroundColor = UIColor.white
-//        }
+//        checkIntroPassed()
+         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        window?.rootViewController = WelcomePageVC(collectionViewLayout: layout)
         
     UINavigationBar.appearance().barTintColor = UIColor.init(r: 216, g: 74, b: 32)  
         UINavigationBar.appearance().tintColor = UIColor.white
         return true
     }
 
+    func checkIntroPassed()  {
+        let layout = UICollectionViewFlowLayout()
+        let isPassed:Bool = UserDefaults.standard.object(forKey: "passIntro") as? Bool ?? false
+        
+            
+        window?.rootViewController = isPassed ? UINavigationController(rootViewController: RestaurantHomeVC(collectionViewLayout: layout)) : WelcomePageVC()
+        
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
