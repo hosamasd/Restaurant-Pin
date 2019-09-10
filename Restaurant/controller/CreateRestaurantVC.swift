@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import Photos
-
+import CoreData
 
 class CreateRestaurantVC: UITableViewController {
     let cellID = "cellID"
@@ -71,6 +70,7 @@ class CreateRestaurantVC: UITableViewController {
                  cell.valueLabel.placeholder = " enter your Location"
             case 4:
                 cell.fieldLabel.text = "Phone"
+                cell.valueLabel.keyboardType = .phonePad
                  cell.valueLabel.placeholder = " enter your Phone"
             
             default:
@@ -80,6 +80,14 @@ class CreateRestaurantVC: UITableViewController {
             return cell
         }
         
+    }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        dismissKeyboard()
+    }
+    
+    @objc func dismissKeyboard(){
+        self.view.endEditing(true)
     }
     
     func setupNavigationItems()  {
@@ -96,6 +104,8 @@ class CreateRestaurantVC: UITableViewController {
     }
     
     func setupTableView()  {
+        tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+        tableView.keyboardDismissMode = .interactive
          tableView = UITableView(frame: self.tableView.frame, style: .grouped)
         tableView.backgroundColor = .gray
         tableView.register(PickedPhototCell.self, forCellReuseIdentifier: cellID)
@@ -113,32 +123,34 @@ class CreateRestaurantVC: UITableViewController {
             indexs.append(val)
         }
         
-//        let indexpathForName = IndexPath(row: 1, section: 0); let indexpathForType = IndexPath(row: 2, section: 0); let indexpathForLocation = IndexPath(row: 3, section: 0)
-//        let indexpathForPhone = IndexPath(row: 4, section: 0)
-//
-//        let nameCell = tableView.cellForRow(at: indexpathForName) as! CreateFieldsCell
-//        let locationCell = tableView.cellForRow(at: indexpathForLocation) as! CreateFieldsCell
-//
-//        let phoneCell =  tableView.cellForRow(at: indexpathForPhone) as! CreateFieldsCell
-//        let typeCell =  tableView.cellForRow(at: indexpathForType) as! CreateFieldsCell
-//
-//       guard let names = nameCell.valueLabel.text,
-//        let phones = phoneCell.valueLabel.text,
-//        let types = typeCell.valueLabel.text,  let locations = locationCell.valueLabel.text
-//        else {showAlert()  ; return }
-//
-//
-//            name = names; phone = phones ; location = locations ; typle = types
-        print(isBeenVisited)
+        saveInDatabase(index: indexs, visited: isBeenVisited, image: self.images ?? #imageLiteral(resourceName: "photoalbum"))
         print(indexs)
     }
     
+    func saveInDatabase(index: [String],visited:Bool,image:UIImage)  {
+        let rest = Restaurant(context: context)
+        rest.name = index[0]
+        rest.type = index[1]
+        rest.location = index[2]
+        rest.phone = index[3]
+        rest.isVisited = visited
+        let data = image.pngData()
+        rest.image = data
+        
+        do {
+            try context.save()
+            print("saved")
+        } catch let err {
+            print(err.localizedDescription)
+        }
+    }
    @objc func handelCancel()  {
         navigationController?.popViewController(animated: true)
     }
     
    @objc func handelSave()  {
         checkData()
+    
     }
 }
 
