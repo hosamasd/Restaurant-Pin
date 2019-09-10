@@ -27,7 +27,7 @@ class RestaurantDetailsVC: UITableViewController {
     }()
     lazy var checkedButton:UIButton = {
         let bt = UIButton(type: .system)
-        bt.setImage(#imageLiteral(resourceName: "check"), for: .normal)
+        bt.setImage(#imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal), for: .normal)
         bt.constrainHeight(constant: 28)
         bt.constrainWidth(constant: 28)
         bt.addTarget(self, action: #selector(handleSelectItem), for: .touchUpInside)
@@ -77,6 +77,7 @@ class RestaurantDetailsVC: UITableViewController {
         return 250
     }
     
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 250 : 0
     }
@@ -100,7 +101,7 @@ class RestaurantDetailsVC: UITableViewController {
             cell.valueLabel.text = restaurant.phone
         case 4:
             cell.fieldLabel.text = "Been here"
-            cell.valueLabel.text = (restaurant.isVisited) ? "Yes, I've been here before" : "No"
+            cell.valueLabel.text = (restaurant.isVisited) ? "Yes, I've been here before \(restaurant.rating ?? "")" : "No"
         default:
             cell.fieldLabel.text = ""
             cell.valueLabel.text = ""
@@ -132,7 +133,7 @@ class RestaurantDetailsVC: UITableViewController {
     func setupTableView()  {
         tableView.backgroundColor = .white
         tableView.register(RestaurantDetailsCell.self, forCellReuseIdentifier: cellID)
-        tableView.tableFooterView = UIView()
+//        tableView.tableFooterView = UIView()
     }
     
    @objc func handleFullMap()  {
@@ -141,16 +142,28 @@ class RestaurantDetailsVC: UITableViewController {
         navigationController?.pushViewController(fullMap, animated: true)
     }
     
+    func saveData(rest:Restaurant)  {
+        do {
+            try context.save()
+        } catch let err {
+            print(err.localizedDescription)
+        }
+        tableView.reloadData()
+    }
+    
     @objc func handleSelectItem()  {
-        let review = ReviewVC()
+        let review = ReviewVC(rest: restaurant)
+        review.delgate = self
         present(review, animated: true)
-//       tableView.addSubview(detailView)
-//
-//        detailView.anchor(top: tableView.safeAreaLayoutGuide.topAnchor, leading: tableView.leadingAnchor, bottom: tableView.safeAreaLayoutGuide.bottomAnchor, trailing: tableView.trailingAnchor,padding: .init(top: 60, left: 16, bottom: 60, right: 16))
     
     }
 }
 
-extension RestaurantDetailsVC: MKMapViewDelegate{
+extension RestaurantDetailsVC: MKMapViewDelegate,ReviewVCProtocol{
+    func getRating(rate: String) {
+        restaurant.rating = rate
+       saveData(rest: restaurant)
+    }
+    
     
 }

@@ -8,7 +8,12 @@
 
 import UIKit
 
+protocol ReviewVCProtocol {
+    func getRating(rate:String)
+}
 class ReviewVC: UIViewController {
+    
+    var delgate:ReviewVCProtocol?
     
     lazy var backgroundImageView:UIImageView = {
         let im = UIImageView(image: #imageLiteral(resourceName: "cafeloisl"))
@@ -25,7 +30,8 @@ class ReviewVC: UIViewController {
         return bt
     }()
     lazy var restaurantImageView:UIImageView = {
-        let im = UIImageView(image: #imageLiteral(resourceName: "confessional"))
+        let data = restarant.image
+        let im = UIImageView(image: UIImage(data: data ?? Data()))
         im.constrainHeight(constant: 180)
         im.clipsToBounds = true
         im.contentMode = .scaleAspectFill
@@ -37,6 +43,17 @@ class ReviewVC: UIViewController {
     lazy var reviewButton2 = createButtons(title: "Good", tag: 2)
     lazy var reviewButton3 = createButtons(title: "I don't like it", tag: 3)
     var grouped:UIStackView?
+    
+    let restarant:Restaurant
+    
+    init(rest:Restaurant) {
+        self.restarant = rest
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +120,13 @@ class ReviewVC: UIViewController {
     }
     
   @objc  func handleChossen(sender:UIButton)  {
-        print(sender.tag)
+    guard let text = sender.titleLabel?.text  else { return  }
+    switch sender.tag {
+    case 1,2,3:
+        delgate?.getRating(rate:text )
+    default:
+        return
+    }
+    dismiss(animated: true, completion: nil)
     }
 }
