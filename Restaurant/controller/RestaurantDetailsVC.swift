@@ -34,10 +34,10 @@ class RestaurantDetailsVC: UITableViewController {
         return bt
     }()
      let cellID = "cellID"
-    let restaurant:RestaurantModel 
+    let restaurant:Restaurant
     
     
-    init(rest:RestaurantModel){
+    init(rest:Restaurant){
         self.restaurant = rest
         super.init(nibName: nil, bundle: nil)
     }
@@ -57,14 +57,16 @@ class RestaurantDetailsVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
+        if let data = restaurant.image {
         let subView = UIView()
         subView.addSubViews(views: restaurantImageView,checkedButton)
         
         restaurantImageView.fillSuperview()
         checkedButton.anchor(top: subView.topAnchor, leading: nil, bottom: nil, trailing: subView.trailingAnchor,padding: .init(top: 8, left: 0, bottom: 0, right: 8))
-       restaurantImageView.image =  restaurant.image
+       restaurantImageView.image = UIImage(data: data)
         return subView
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -113,7 +115,7 @@ class RestaurantDetailsVC: UITableViewController {
         let gecoder = CLGeocoder()
         let annotation = MKPointAnnotation()
         
-        gecoder.geocodeAddressString(restaurant.location) { (placemarks, err) in
+        gecoder.geocodeAddressString(restaurant.location ?? "" ) { (placemarks, err) in
             guard  let place = placemarks?.first?.location else {return}
            annotation.coordinate = place.coordinate
             self.mapView.addAnnotation(annotation)
@@ -140,6 +142,8 @@ class RestaurantDetailsVC: UITableViewController {
     }
     
     @objc func handleSelectItem()  {
+        let review = ReviewVC()
+        present(review, animated: true)
 //       tableView.addSubview(detailView)
 //
 //        detailView.anchor(top: tableView.safeAreaLayoutGuide.topAnchor, leading: tableView.leadingAnchor, bottom: tableView.safeAreaLayoutGuide.bottomAnchor, trailing: tableView.trailingAnchor,padding: .init(top: 60, left: 16, bottom: 60, right: 16))

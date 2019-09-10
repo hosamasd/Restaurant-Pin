@@ -18,8 +18,8 @@ class FullyFunctionalMapVC: UIViewController {
         mp.showsTraffic = true
         return mp
     }()
-    let restaurant:RestaurantModel 
-    init(rest:RestaurantModel){
+    let restaurant:Restaurant
+    init(rest:Restaurant){
         self.restaurant = rest
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,7 +38,7 @@ class FullyFunctionalMapVC: UIViewController {
             let gecoder = CLGeocoder()
         
             
-            gecoder.geocodeAddressString(restaurant.location) { (placemarks, err) in
+        gecoder.geocodeAddressString(restaurant.location ?? "") { (placemarks, err) in
                 guard  let place = placemarks?.first?.location else {return}
                 
                  let annotation = MKPointAnnotation()
@@ -76,7 +76,7 @@ extension FullyFunctionalMapVC: MKMapViewDelegate{
         }
         
         let leftIcon = UIImageView(frame: .init(x: 0, y: 0, width: 53, height: 53))
-        leftIcon.image = restaurant.image
+        leftIcon.image = UIImage(data: restaurant.image ?? Data())
         annotaionView?.leftCalloutAccessoryView = leftIcon
         annotaionView?.tintColor = UIColor.orange
 //        annotaionView.pinTintColor = .blue

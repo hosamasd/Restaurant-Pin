@@ -27,6 +27,7 @@
 		4E80473D2325216300B277BA /* RestaurantModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E80473C2325216300B277BA /* RestaurantModel.swift */; };
 		4EA4D8F623263A6300B5C7AB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA4D8F523263A6300B5C7AB /* MapKit.framework */; };
 		4EA4D8F823263C4800B5C7AB /* FullyFunctionalMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA4D8F723263C4800B5C7AB /* FullyFunctionalMapVC.swift */; };
+		4EDA0D852327A0180021BE6A /* ReviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EDA0D842327A0180021BE6A /* ReviewVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		4E80473C2325216300B277BA /* RestaurantModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantModel.swift; sourceTree = "<group>"; };
 		4EA4D8F523263A6300B5C7AB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4EA4D8F723263C4800B5C7AB /* FullyFunctionalMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullyFunctionalMapVC.swift; sourceTree = "<group>"; };
+		4EDA0D842327A0180021BE6A /* ReviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */,
 				4EA4D8F723263C4800B5C7AB /* FullyFunctionalMapVC.swift */,
 				4E7D832E23264C2C0076E4E4 /* CreateRestaurantVC.swift */,
+				4EDA0D842327A0180021BE6A /* ReviewVC.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				4EA4D8F823263C4800B5C7AB /* FullyFunctionalMapVC.swift in Sources */,
 				4E80472423251E5F00B277BA /* AppDelegate.swift in Sources */,
 				4E80473923251F4A00B277BA /* ExtensionUivew.swift in Sources */,
+				4EDA0D852327A0180021BE6A /* ReviewVC.swift in Sources */,
 				4E7BDD7523265EF700BFF0DC /* CreatQuestCell.swift in Sources */,
 				4E7D833423264F3A0076E4E4 /* BaseCell.swift in Sources */,
 				4E5FACC62325422A00F4BB71 /* RestaurantDetailsVC.swift in Sources */,

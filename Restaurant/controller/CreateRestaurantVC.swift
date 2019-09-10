@@ -14,6 +14,8 @@ class CreateRestaurantVC: UITableViewController {
     let secondCelllID = "secondCelllID"
     let thirdCelllID = "CelllID"
     
+    let placeholdersText = [" enter your Name"," enter your Type"," enter your Location"," enter your Phone"]
+    
     var name,typle,location,phone:String?
     var isBeenVisited:Bool = false
     
@@ -61,17 +63,17 @@ class CreateRestaurantVC: UITableViewController {
             switch indexPath.row {
             case 1:
                 cell.fieldLabel.text = "Name"
-                 cell.valueLabel.placeholder = " enter your Name"
+                 cell.valueLabel.placeholder = placeholdersText[0]
             case 2:
                 cell.fieldLabel.text = "Type"
-                cell.valueLabel.placeholder = " enter your Type"
+                cell.valueLabel.placeholder = placeholdersText[1]
             case 3:
                 cell.fieldLabel.text = "Location"
-                 cell.valueLabel.placeholder = " enter your Location"
+                 cell.valueLabel.placeholder = placeholdersText[2]
             case 4:
                 cell.fieldLabel.text = "Phone"
                 cell.valueLabel.keyboardType = .phonePad
-                 cell.valueLabel.placeholder = " enter your Phone"
+                 cell.valueLabel.placeholder = placeholdersText[3]
             
             default:
                 cell.fieldLabel.text = ""
@@ -134,6 +136,7 @@ class CreateRestaurantVC: UITableViewController {
         rest.location = index[2]
         rest.phone = index[3]
         rest.isVisited = visited
+        
         let data = image.pngData()
         rest.image = data
         
@@ -144,13 +147,32 @@ class CreateRestaurantVC: UITableViewController {
             print(err.localizedDescription)
         }
     }
+    
+    func makeDefaultValues()  {
+        view.endEditing(true)
+        isBeenVisited = false
+        for x in 1...4 {
+            let index = IndexPath(row: x, section: 0)
+            let cell = tableView.cellForRow(at: index) as! CreateFieldsCell
+           cell.valueLabel.text = ""
+            cell.valueLabel.placeholder = placeholdersText[x - 1]
+        }
+        let index = IndexPath(row: 5, section: 0)
+        let cell = tableView.cellForRow(at: index) as! CreatQuestCell
+        cell.handleNoTapped()
+        
+        let indexx = IndexPath(row: 0, section: 0)
+        let cells = tableView.cellForRow(at: indexx) as! PickedPhototCell
+        cells.restaurantImageView.image = #imageLiteral(resourceName: "photoalbum")
+    }
+    
    @objc func handelCancel()  {
         navigationController?.popViewController(animated: true)
     }
     
    @objc func handelSave()  {
         checkData()
-    
+    makeDefaultValues()
     }
 }
 
