@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import MOLH
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable{
@@ -31,6 +32,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable{
         
         MOLH.shared.activate(true)
 
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { (gran, err) in
+            if gran {
+                print("user notification are allowed")
+            }else {
+                print("user notification not are allowed")
+            }
+        }
         return true
     }
 

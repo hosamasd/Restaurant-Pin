@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import MOLH
+import UserNotifications
 
 let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -27,9 +28,65 @@ class RestaurantHomeVC: BaseVC {
 //        fetchData()
     }
     
+    func prepareNotification()  {
+        
+        if restaurantsArray.count <= 0 {
+            return
+        }
+        
+        // Pick a restaurant randomly
+        
+        let randomNum = Int.random(in: 0 ..< restaurantsArray.count)
+        let suggestedRestaurant = restaurantsArray[randomNum]
+        
+        // Create the user notification
+        let content = UNMutableNotificationContent()
+        content.title = "Restaurant Recommendation"
+        content.subtitle = "Try new food today"
+        content.body = "I recommend you to check out \(suggestedRestaurant.name!). The restaurant is one of your favorites. It is located at \(suggestedRestaurant.location!). Would you like to give it a try?"
+        content.sound = UNNotificationSound.default
+        
+        
+        
+        
+        
+        // Add an image to the notification
+        let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        let tempFileURL = tempDirURL.appendingPathComponent("suggested-restaurant.jpg")
+        
+         guard let imageData = suggestedRestaurant.image else { return  }
+       guard let image = UIImage(data: imageData) else { return  }
+        
+            do {
+                try image.jpegData(compressionQuality: 1.0)?.write(to: tempFileURL)
+                 let restaurantImage = try UNNotificationAttachment(identifier: "restaurantImage", url: tempFileURL, options: nil)
+                    content.attachments = [restaurantImage]
+                
+            }catch let err{
+             print(err.localizedDescription)
+            }
+           
+        
+      
+        // Add custom action
+        let categoryIdentifer = "foodpin.restaurantaction"
+        let makeReservationAction = UNNotificationAction(identifier: "foodpin.makeReservation", title: "Reserve a table", options: [.foreground])
+        let cancelAction = UNNotificationAction(identifier: "foodpin.cancel", title: "Later", options: [])
+        let category = UNNotificationCategory(identifier: categoryIdentifer, actions: [makeReservationAction, cancelAction], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        content.categoryIdentifier = categoryIdentifer
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+        let request = UNNotificationRequest(identifier: "rests", content: content, trigger: trigger)
+        
+        //schedule notifications
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchData()
+        prepareNotification()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
