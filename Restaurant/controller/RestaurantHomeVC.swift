@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-
+import MOLH
 
 let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
@@ -71,9 +71,9 @@ class RestaurantHomeVC: BaseVC {
         searchController.searchResultsUpdater = self
         searchController.searchBar.barTintColor = UIColor(r: 218, g: 100, b: 70)
         searchController.searchBar.tintColor = .white
-        searchController.searchBar.placeholder = "Search for Restaurants"
+        searchController.searchBar.placeholder = "Search for Restaurants".localized
         
-        navigationItem.title = "Restaurant Pin"
+        navigationItem.title = "Restaurant Pin".localized
 
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white,.font: UIFont.boldSystemFont(ofSize: 25)]
 
@@ -141,15 +141,15 @@ extension RestaurantHomeVC: UISearchResultsUpdating{
     
     func createAlert(index:Int)  {
         
-        let alert = UIAlertController(title: "Restaruant Pin", message: "choose action", preferredStyle: .actionSheet)
-        let display = UIAlertAction(title: "Display", style: .default) { [weak self] (_) in
+        let alert = UIAlertController(title: "Restaurant Pin".localized, message: "choose action".localized, preferredStyle: .actionSheet)
+        let display = UIAlertAction(title: "Display".localized, style: .default) { [weak self] (_) in
             guard let res = self?.restaurantsArray[index] else {return}
             
             let detail = RestaurantDetailsVC(rest: res)
             //        detail.restaurant = res
             self?.navigationController?.pushViewController(detail, animated: true)
         }
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (_) in
+        let delete = UIAlertAction(title: "Delete".localized, style: .destructive) { [weak self] (_) in
             guard let res = self?.restaurantsArray[index] else {return}
             
             context.delete(res)
@@ -160,7 +160,7 @@ extension RestaurantHomeVC: UISearchResultsUpdating{
             }
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel) { (_) in
             alert.dismiss(animated: true)
         }
         

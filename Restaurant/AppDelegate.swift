@@ -8,9 +8,10 @@
 
 import UIKit
 import CoreData
+import MOLH
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable{
 
     var window: UIWindow?
 
@@ -23,19 +24,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         checkIntroPassed()
 //         let layout = UICollectionViewFlowLayout()
 //        layout.scrollDirection = .horizontal
-//        window?.rootViewController = WelcomePageVC(collectionViewLayout: layout)
+//        window?.rootViewController = WelcomePageVC(collectionViewLayout: UICollectionViewFlowLayout())
         
     UINavigationBar.appearance().barTintColor = UIColor.init(r: 216, g: 74, b: 32)  
         UINavigationBar.appearance().tintColor = UIColor.white
+        
+        MOLH.shared.activate(true)
+
         return true
     }
 
+    func reset() {
+        checkIntroPassed() 
+//        let rootviewcontroller: UIWindow = ((UIApplication.shared.delegate?.window)!)!
+//        let stry = UIStoryboard(name: "Main", bundle: nil)
+//        rootviewcontroller.rootViewController = stry.instantiateViewController(withIdentifier: "rootnav")
+    }
+    
     func checkIntroPassed()  {
-        let layout = UICollectionViewFlowLayout()
         let isPassed:Bool = UserDefaults.standard.object(forKey: "passIntro") as? Bool ?? false
         
         let tabs = MainTabBarVC()
-//        UINavigationController(rootViewController: RestaurantHomeVC(collectionViewLayout: layout))
         window?.rootViewController = isPassed ? tabs : WelcomePageVC()
         
     }

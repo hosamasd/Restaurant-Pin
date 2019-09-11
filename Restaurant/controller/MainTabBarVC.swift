@@ -21,9 +21,9 @@ class MainTabBarVC: UITabBarController {
     fileprivate func setupViewControllers() {
         
         let layout = UICollectionViewFlowLayout()
-        let favorite = templateNavControllerVC(title: "Favorite", selectedImage: #imageLiteral(resourceName: "favorite"), rootViewController: RestaurantHomeVC(collectionViewLayout: layout))
-        let search = templateNavControllerVC(title: "Discover", selectedImage: #imageLiteral(resourceName: "discover"), rootViewController: DiscoverVC() )
-        let download = templateNavControllerVC(title: "About", selectedImage: #imageLiteral(resourceName: "about"), rootViewController: AboutVC())
+        let favorite = templateNavControllerVC(title: "Favorite".localized, selectedImage: #imageLiteral(resourceName: "favorite"), rootViewController: RestaurantHomeVC(collectionViewLayout: layout))
+        let search = templateNavControllerVC(title: "Discover".localized, selectedImage: #imageLiteral(resourceName: "discover"), rootViewController: DiscoverVC() )
+        let download = templateNavControllerVC(title: "About".localized, selectedImage: #imageLiteral(resourceName: "about"), rootViewController: AboutVC())
         
         tabBar.tintColor = UIColor(r: 235, g: 75, b: 27)
         tabBar.barTintColor = UIColor(r: 236, g: 240, b: 241)

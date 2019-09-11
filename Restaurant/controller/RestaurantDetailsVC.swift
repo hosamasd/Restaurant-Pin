@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import MOLH
 
 class RestaurantDetailsVC: UITableViewController {
     
@@ -93,24 +94,29 @@ class RestaurantDetailsVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! RestaurantDetailsCell
       
+        if MOLHLanguage.isRTLLanguage() {
+            [cell.fieldLabel,cell.valueLabel].forEach({$0.textAlignment = .right})
+        }
+        
         // Configure the cell...
         switch indexPath.row {
         case 0:
-            cell.fieldLabel.text = "Name"
+            cell.fieldLabel.text = "Name".localized
             cell.valueLabel.text = restaurant.name
         case 1:
-            cell.fieldLabel.text = "Type"
+            cell.fieldLabel.text = "Type".localized
             cell.valueLabel.text = restaurant.type
         case 2:
-            cell.fieldLabel.text = "Location"
+            cell.fieldLabel.text = "Location".localized
             cell.valueLabel.text = restaurant.location
         case 3:
-            cell.fieldLabel.text = "Phone"
+            cell.fieldLabel.text = "Phone".localized
             cell.valueLabel.text = restaurant.phone
         case 4:
-            cell.fieldLabel.text = "Been here"
+            cell.fieldLabel.text = "Been here".localized
             cell.valueLabel.text = (restaurant.isVisited) ? "Yes, I've been here before \(restaurant.rating ?? "")" : "No"
         default:
             cell.fieldLabel.text = ""

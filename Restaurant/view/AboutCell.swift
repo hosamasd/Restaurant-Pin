@@ -20,7 +20,7 @@ class AboutCell: BaseCell {
     
     override func setupViews()  {
         backgroundColor = .white
-       stack(fieldLabel).withMargins(.init(top: 0, left: 16, bottom: 0, right: 0))
+       stack(fieldLabel).withMargins(.init(top: 0, left: 16, bottom: 0, right: 16))
         
     }
 }

@@ -1,0 +1,32 @@
+/* 
+  Localizable.strings
+  Restaurant
+
+  Created by hosam on 9/11/19.
+  Copyright © 2019 hosam. All rights reserved.
+*/
+"lang" = "ar";
+"Search for Restaurants" = "ابحث عن المطاعم";
+"Restaurant Pin" = "مطاعم";
+"Favorite" = "المفضصلة";
+"Discover" = "استكشف";
+"About" = "عن البرنامج";
+"English" = "English";
+"Built By \n HOSAM" =  "برمجة  \n حسام";
+
+"GitHub" = "جت هاب";
+"Facebook" = "فيسبوك";
+"LinkedIn" = "لنكداين";
+"Rate Us On App Store" = "قيمنا علي الاستور";
+"Tell Us On Your Feedback" = "اخبرنا رايك";
+
+"choose action" = "أيهما تفضل للاختيار";
+"Delete" = "امسح";
+"Cancel" = "الغاء";
+"Display" = "عرض";
+
+"Name" = "الاسم";
+"Type" = "النوع";
+"Location" = "المكان";
+"Phone" = "رقم التليفون";
+"Been here" = "زرت هذا المكان";

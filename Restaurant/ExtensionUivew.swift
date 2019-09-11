@@ -213,6 +213,15 @@ extension UIColor{
     convenience  init(r:CGFloat,g:CGFloat,b:CGFloat) {
         self.init(red: r/255, green: g/255, blue: b/255, alpha: 1)
     }
+    
+    convenience init(hex:Int, alpha: CGFloat = 1.0) {
+        self.init(
+            red:   CGFloat((hex & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((hex & 0x00FF00) >> 8)  / 255.0,
+            blue:  CGFloat((hex & 0x0000FF) >> 0)  / 255.0,
+            alpha: alpha
+        )
+    }
 }
 extension UILabel {
     convenience public init(text: String?, font: UIFont? = UIFont.systemFont(ofSize: 14), textColor: UIColor = .black, textAlignment: NSTextAlignment = .left, numberOfLines: Int = 1) {
@@ -235,6 +244,18 @@ extension UIButton {
         if let action = action {
             addTarget(target, action: action, for: .touchUpInside)
         }
+    }
+    
+    func press(completion: @escaping() -> ()) {
+        UIView.animate(withDuration: 0.125, delay: 0, options: [.curveEaseIn], animations: {
+            self.transform = CGAffineTransform(scaleX: 0.94, y: 0.94)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.125, delay: 0, options: [.curveEaseIn], animations: {
+                self.transform = .identity
+            }, completion: { _ in
+                completion()
+            })
+        })
     }
     
     convenience public init(image: UIImage, tintColor: UIColor? = nil) {
@@ -332,7 +353,7 @@ So here is the simple extension to an array which will allow us to remove an ele
 
 extension Array where Element: Equatable {
     mutating func remove(_ element: Element) {
-        _ = index(of: element).flatMap {
+        _ = firstIndex(of: element).flatMap {
             self.remove(at: $0)
         }
     } }
@@ -354,6 +375,11 @@ extension String {
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [.font : UIFont.systemFont(ofSize: 17)], context: nil)
     }
+    
+    var localized:String {
+        return NSLocalizedString(self, comment: "")
+    }
+    
     
     func toSecrueHttps() -> String {
         return self.contains("https") ? self : self.replacingOccurrences(of: "http", with: "https")

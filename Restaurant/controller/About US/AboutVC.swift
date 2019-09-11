@@ -8,12 +8,13 @@
 
 import UIKit
 import SafariServices
+import MOLH
 
 class AboutVC: UITableViewController {
     let cellID = "cellID"
     
     let img:UIImageView =  {
-        let img =  UIImageView(image: #imageLiteral(resourceName: "palominoespresso"))
+        let img =  UIImageView(image: #imageLiteral(resourceName: "pict"))
     img.constrainWidth(constant: 60)
     img.constrainHeight(constant: 60)
     img.layer.cornerRadius = 30
@@ -22,11 +23,12 @@ class AboutVC: UITableViewController {
         img.translatesAutoresizingMaskIntoConstraints = false
        return img
     }()
-     let label = UILabel(text: "Built By \n HOSAM", font: .systemFont(ofSize: 18), textColor: .black,textAlignment: .left,numberOfLines: 2)
-    var sectionTitles = ["","Leave Feedback", "Follow Us"]
+     let label = UILabel(text: "Built By \n HOSAM".localized, font: .systemFont(ofSize: 18), textColor: .black,textAlignment: .left,numberOfLines: 2)
+    var sectionTitles = ["","Leave Feedback", "Follow Us"," Language"]
     var sectionContent = [["",""],["Rate us on App Store", "Tell us your feedback"],
-                          ["GitHub", "Facebook", "LinkedIn"]]
+                          ["GitHub", "Facebook", "LinkedIn"],["change Language"]]
     var links = ["https://github.com/hosamasd?tab=repositories", "https://www.facebook.com/hosammohamedasd", "https://www.linkedin.com/in/hosam-mohamed-425a83119/"]
+    
     lazy var headerView:UIView = {
        let v = UIView(backgroundColor: .white)
         v.addSubViews(views: img, label)
@@ -39,7 +41,10 @@ class AboutVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
     }
+    
+   
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
@@ -69,6 +74,11 @@ class AboutVC: UITableViewController {
                 let safari = SFSafariViewController(url: url)
                 present(safari, animated: true)
             }
+            
+        case 3 :
+            //reset language
+            MOLH.setLanguageTo(MOLHLanguage.currentAppleLanguage() == "en" ? "ar" : "en")
+            MOLH.reset()
         default:
         return
         }
@@ -96,21 +106,28 @@ class AboutVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! AboutCell
+        
+        if MOLHLanguage.isRTLLanguage() {
+            cell.fieldLabel.textAlignment = .right
+        }
+        
         if indexPath.section == 0 {
             return UITableViewCell()
         }else  if indexPath.section == 1 {
             if indexPath.row == 0 {
-                cell.fieldLabel.text = "Rate Us On App Store"
+                cell.fieldLabel.text = "Rate Us On App Store".localized
             }else {
-                cell.fieldLabel.text = "Tell Us On Your Feedback"
+                cell.fieldLabel.text = "Tell Us On Your Feedback".localized
             }
-        }else  {
+        }else if indexPath.section == 3 {
+             cell.fieldLabel.text = "English".localized
+        } else  {
             if indexPath.row == 0 {
-                cell.fieldLabel.text = "Twitter"
+                cell.fieldLabel.text = "GitHub".localized
             }else if indexPath.row == 1 {
-                cell.fieldLabel.text = "Facebook"
+                cell.fieldLabel.text = "Facebook".localized
             } else {
-                cell.fieldLabel.text = "LinkedIn"
+                cell.fieldLabel.text = "LinkedIn".localized
             }
 //
             
