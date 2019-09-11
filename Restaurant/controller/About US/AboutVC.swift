@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class AboutVC: UITableViewController {
     let cellID = "cellID"
@@ -24,8 +25,8 @@ class AboutVC: UITableViewController {
      let label = UILabel(text: "Built By \n HOSAM", font: .systemFont(ofSize: 18), textColor: .black,textAlignment: .left,numberOfLines: 2)
     var sectionTitles = ["","Leave Feedback", "Follow Us"]
     var sectionContent = [["",""],["Rate us on App Store", "Tell us your feedback"],
-                          ["Twitter", "Facebook", "Pinterest"]]
-    var links = ["https://twitter.com/appcodamobile", "https://facebook.com/appcodamobile", "https://www.pinterest.com/appcoda/"]
+                          ["GitHub", "Facebook", "LinkedIn"]]
+    var links = ["https://github.com/hosamasd?tab=repositories", "https://www.facebook.com/hosammohamedasd", "https://www.linkedin.com/in/hosam-mohamed-425a83119/"]
     lazy var headerView:UIView = {
        let v = UIView(backgroundColor: .white)
         v.addSubViews(views: img, label)
@@ -64,7 +65,10 @@ class AboutVC: UITableViewController {
             }
             
         case 2 :
-            print(012)
+            if let url = URL(string: links[indexPath.row]){
+                let safari = SFSafariViewController(url: url)
+                present(safari, animated: true)
+            }
         default:
         return
         }
