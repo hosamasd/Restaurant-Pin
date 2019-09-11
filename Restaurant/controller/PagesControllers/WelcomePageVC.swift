@@ -102,7 +102,7 @@ class WelcomePageVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pages.count ?? 0
+        return pages.count 
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

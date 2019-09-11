@@ -355,6 +355,9 @@ extension String {
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [.font : UIFont.systemFont(ofSize: 17)], context: nil)
     }
     
+    func toSecrueHttps() -> String {
+        return self.contains("https") ? self : self.replacingOccurrences(of: "http", with: "https")
+    }
     
     func timeAgoSinceDate(_ date:Date, currentDate:Date, numericDates:Bool) -> String {
         let calendar = Calendar.current
