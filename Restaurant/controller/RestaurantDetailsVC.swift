@@ -15,7 +15,7 @@ class RestaurantDetailsVC: UITableViewController {
     let detailView = DetailStackView()
     
     lazy var mapView:MKMapView = {
-       let mp = MKMapView()
+        let mp = MKMapView()
         mp.delegate = self
         mp.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleFullMap)))
         return mp
@@ -34,7 +34,7 @@ class RestaurantDetailsVC: UITableViewController {
         bt.addTarget(self, action: #selector(handleSelectItem), for: .touchUpInside)
         return bt
     }()
-     let cellID = "cellID"
+    let cellID = "cellID"
     let restaurant:Restaurant
     
     
@@ -46,6 +46,7 @@ class RestaurantDetailsVC: UITableViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeAnnotation()
@@ -60,7 +61,7 @@ class RestaurantDetailsVC: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-         tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,13 +70,13 @@ class RestaurantDetailsVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let data = restaurant.image {
-        let subView = UIView()
-        subView.addSubViews(views: restaurantImageView,checkedButton)
-        
-        restaurantImageView.fillSuperview()
-        checkedButton.anchor(top: subView.topAnchor, leading: nil, bottom: nil, trailing: subView.trailingAnchor,padding: .init(top: 8, left: 0, bottom: 0, right: 8))
-       restaurantImageView.image = UIImage(data: data)
-        return subView
+            let subView = UIView()
+            subView.addSubViews(views: restaurantImageView,checkedButton)
+            
+            restaurantImageView.fillSuperview()
+            checkedButton.anchor(top: subView.topAnchor, leading: nil, bottom: nil, trailing: subView.trailingAnchor,padding: .init(top: 8, left: 0, bottom: 0, right: 8))
+            restaurantImageView.image = UIImage(data: data)
+            return subView
         }
         return nil
     }
@@ -96,7 +97,7 @@ class RestaurantDetailsVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! RestaurantDetailsCell
-      
+        
         if MOLHLanguage.isRTLLanguage() {
             [cell.fieldLabel,cell.valueLabel].forEach({$0.textAlignment = .right})
         }
@@ -128,13 +129,15 @@ class RestaurantDetailsVC: UITableViewController {
         return cell
     }
     
-    func makeAnnotation()  {
+    //MARK: -user methods
+    
+  fileprivate  func makeAnnotation()  {
         let gecoder = CLGeocoder()
         let annotation = MKPointAnnotation()
         
         gecoder.geocodeAddressString(restaurant.location ?? "" ) { (placemarks, err) in
             guard  let place = placemarks?.first?.location else {return}
-           annotation.coordinate = place.coordinate
+            annotation.coordinate = place.coordinate
             self.mapView.addAnnotation(annotation)
             
             let region = MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 250, longitudinalMeters: 250)
@@ -142,43 +145,45 @@ class RestaurantDetailsVC: UITableViewController {
         }
     }
     
-    func setupNavigationItem()  {
+  fileprivate  func setupNavigationItem()  {
         navigationItem.title = restaurant.name
     }
     
-    func setupTableView()  {
+   fileprivate func setupTableView()  {
         tableView.backgroundColor = .white
         tableView.register(RestaurantDetailsCell.self, forCellReuseIdentifier: cellID)
-//        tableView.tableFooterView = UIView()
     }
     
-   @objc func handleFullMap()  {
+    //TODO: -handle methods
+    
+    @objc fileprivate func handleFullMap()  {
         let fullMap = FullyFunctionalMapVC(rest: restaurant)
         
         navigationController?.pushViewController(fullMap, animated: true)
     }
     
-    func saveData(rest:Restaurant)  {
-        do {
-            try context.save()
-        } catch let err {
-            print(err.localizedDescription)
-        }
-        tableView.reloadData()
-    }
-    
-    @objc func handleSelectItem()  {
+    @objc fileprivate func handleSelectItem()  {
         let review = ReviewVC(rest: restaurant)
         review.delgate = self
         present(review, animated: true)
-    
+        
     }
 }
 
+//MARK: -extensions
+
 extension RestaurantDetailsVC: MKMapViewDelegate,ReviewVCProtocol{
+    
     func getRating(rate: String) {
         restaurant.rating = rate
-       saveData(rest: restaurant)
+        CoreDataServices.shared.saveDataToCoreData { [weak self](err) in
+            if let err = err {
+                showAlert(title: "Error", message: err.localizedDescription);return
+            }
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     

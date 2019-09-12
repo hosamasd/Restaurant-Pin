@@ -11,7 +11,7 @@ import UIKit
 class AboutCell: BaseCell {
     
     let fieldLabel:UILabel = {
-        let la = UILabel(text: "name", font: .systemFont(ofSize: 16), textColor: .black)
+        let la = UILabel(text: "", font: .systemFont(ofSize: 16), textColor: .black)
 //        la.constrainHeight(constant: 6)
         
         //        la.constrainWidth(constant: 150)
@@ -20,7 +20,7 @@ class AboutCell: BaseCell {
     
     override func setupViews()  {
         backgroundColor = .white
-       stack(fieldLabel).withMargins(.init(top: 0, left: 16, bottom: 0, right: 16))
+       stack(fieldLabel).withMargins(.init(top: 0, left: 20, bottom: 0, right: 16))
         
     }
 }

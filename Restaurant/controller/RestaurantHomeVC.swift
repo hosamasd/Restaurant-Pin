@@ -14,76 +14,20 @@ import UserNotifications
 let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
 class RestaurantHomeVC: BaseVC {
-
+    
     let cellID = "cellID"
     
     var restaurantsArray:[Restaurant] = []
-      var filterRestaurantsArray:[Restaurant] = []
-     let searchController = UISearchController(searchResultsController: nil)
+    var filterRestaurantsArray:[Restaurant] = []
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionViews()
         
-//        fetchData()
     }
     
-    func prepareNotification()  {
-        
-        if restaurantsArray.count <= 0 {
-            return
-        }
-        
-        // Pick a restaurant randomly
-        
-        let randomNum = Int.random(in: 0 ..< restaurantsArray.count)
-        let suggestedRestaurant = restaurantsArray[randomNum]
-        
-        // Create the user notification
-        let content = UNMutableNotificationContent()
-        content.title = "Restaurant Recommendation"
-        content.subtitle = "Try new food today"
-        content.body = "I recommend you to check out \(suggestedRestaurant.name!). The restaurant is one of your favorites. It is located at \(suggestedRestaurant.location!). Would you like to give it a try?"
-        content.sound = UNNotificationSound.default
-         content.userInfo = ["phone": suggestedRestaurant.phone!]
-        
-        
-        
-        
-        // Add an image to the notification
-        let tempDirURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        let tempFileURL = tempDirURL.appendingPathComponent("suggested-restaurant.jpg")
-        
-         guard let imageData = suggestedRestaurant.image else { return  }
-       guard let image = UIImage(data: imageData) else { return  }
-        
-            do {
-                try image.jpegData(compressionQuality: 1.0)?.write(to: tempFileURL)
-                 let restaurantImage = try UNNotificationAttachment(identifier: "restaurantImage", url: tempFileURL, options: nil)
-                    content.attachments = [restaurantImage]
-                
-            }catch let err{
-             print(err.localizedDescription)
-            }
-           
-        
-      
-//        // Add custom action
-        
-        let categoryIdentifer = "foodpin.restaurantaction"
-        let makeReservationAction = UNNotificationAction(identifier: "foodpin.makeReservation", title: "Reserve a table", options: [.foreground])
-        let cancelAction = UNNotificationAction(identifier: "foodpin.cancel", title: "Later", options: [])
-        let category = UNNotificationCategory(identifier: categoryIdentifer, actions: [makeReservationAction, cancelAction], intentIdentifiers: [], options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([category])
-        content.categoryIdentifier = categoryIdentifer
-
-       
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
-        let request = UNNotificationRequest(identifier: "rests", content: content, trigger: trigger)
-//
-//        //schedule notifications
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -106,7 +50,7 @@ class RestaurantHomeVC: BaseVC {
         cell.rest = rest
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return .init(width: view.frame.width, height: 120)
     }
@@ -114,10 +58,10 @@ class RestaurantHomeVC: BaseVC {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-       createAlert(index: indexPath.item)
+        createAlert(index: indexPath.item)
     }
-
     
+    // MARK: -user methods
     
     override func setupNavigastionItem() {
         self.definesPresentationContext = true
@@ -133,53 +77,47 @@ class RestaurantHomeVC: BaseVC {
         searchController.searchBar.placeholder = "Search for Restaurants".localized
         
         navigationItem.title = "Restaurant Pin".localized
-
+        
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white,.font: UIFont.boldSystemFont(ofSize: 25)]
-
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
     }
     
-    override func setupCollectionViews()  {
+    override  func setupCollectionViews()  {
         
         collectionView.backgroundColor = .white
         collectionView.register(RestaurantCell.self, forCellWithReuseIdentifier: cellID)
     }
     
-    func saveData()  {
-        do {
-            try context.save()
-            print("saved")
-        } catch let err {
-            print(err.localizedDescription)
-        }
-//        collectionView.reloadData()
-    }
     
-    func fetchData()  {
-        let request:NSFetchRequest = Restaurant.fetchRequest()
+    
+    fileprivate  func fetchData()  {
         
-        do {
-           restaurantsArray =  try context.fetch(request)
-            collectionView.reloadData()
-        } catch let err {
-            print(err.localizedDescription)
+        CoreDataServices.shared.loadDataFromCoreData {[weak self] (rests, err) in
+            if let err = err{
+                self?.showAlert(title: "Error", message: err.localizedDescription);return
+            }
+            guard let rests = rests else {return}
+            self?.restaurantsArray = rests
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
         }
-        collectionView.reloadData()
+        
     }
     
-  @objc  func handleAdd()  {
+    // TODO: -handle methods
+    
+    @objc fileprivate func handleAdd()  {
         let create = CreateRestaurantVC()
         navigationController?.pushViewController(create, animated: true)
     }
 }
 
+// MARK: -Extensions
 
-extension RestaurantHomeVC: UISearchBarDelegate{
+extension RestaurantHomeVC: UISearchResultsUpdating, UISearchBarDelegate{
     
-    
-}
-
-extension RestaurantHomeVC: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         
         if searchController.searchBar.text == nil || searchController.searchBar.text!.isEmpty{
@@ -190,42 +128,74 @@ extension RestaurantHomeVC: UISearchResultsUpdating{
             filterUsers(text:text)
         }
         collectionView.reloadData()
-
-
+        
+        
     }
-
-    func filterUsers(text:String)  {
+    
+    fileprivate  func filterUsers(text:String)  {
         filterRestaurantsArray = restaurantsArray.filter({$0.name?.lowercased().range(of: text )  != nil || $0.location?.lowercased().range(of: text )  != nil})
     }
     
-    func createAlert(index:Int)  {
+     
         
+    func createAlert(index:Int)  {
+         let rests = restaurantsArray[index]
         let alert = UIAlertController(title: "Restaurant Pin".localized, message: "choose action".localized, preferredStyle: .actionSheet)
         let display = UIAlertAction(title: "Display".localized, style: .default) { [weak self] (_) in
-            guard let res = self?.restaurantsArray[index] else {return}
+//            guard let res = self?.restaurantsArray[index] else {return}
             
-            let detail = RestaurantDetailsVC(rest: res)
-            //        detail.restaurant = res
+            let detail = RestaurantDetailsVC(rest: rests)
             self?.navigationController?.pushViewController(detail, animated: true)
         }
-        let delete = UIAlertAction(title: "Delete".localized, style: .destructive) { [weak self] (_) in
-            guard let res = self?.restaurantsArray[index] else {return}
-            
-            context.delete(res)
-            self?.restaurantsArray.remove(at: index)
-            self?.saveData()
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+        
+        let share = UIAlertAction(title: "Share", style: .default) {[weak self] (_) in
+            // Social Sharing Button
+                
+            let defaultText = "Just checking in at " + rests.name!
+                
+                if let imageToShare = UIImage(data: rests.image ?? Data()) {
+                    let activityController = UIActivityViewController(activityItems: [defaultText, imageToShare], applicationActivities: nil)
+                    self?.present(activityController, animated: true, completion: nil)
+                }
             }
+        
+        
+        
+        let delete = UIAlertAction(title: "Delete".localized, style: .destructive) {  (_) in
+            let res = self.restaurantsArray[index]
+            print(self.restaurantsArray.count)
+            CoreDataServices.shared.deleteDataFromCoreData(index: index, rest: res, restArray: &self.restaurantsArray, completion: {[weak self] (err) in
+                if let err = err{
+                    self?.showAlert(title: "Error", message: err.localizedDescription);return
+                }
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            })
         }
         
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel) { (_) in
             alert.dismiss(animated: true)
         }
         
-        alert.addAction(display)
-        alert.addAction(delete)
-        alert.addAction(cancel)
+        [display,share,delete,cancel].forEach({alert.addAction($0)})
+        
         present(alert, animated: true)
+    }
+    
+    
+   
+    
+    
+    
+   
+    
+    fileprivate func prepareNotification()  {
+        
+        NotificationServices.notificationServices.scheduleNotification(restaurants: restaurantsArray) {[weak self] (err) in
+            if let err = err {
+                self?.showAlert(title: "Error", message: "This app is not allowed to query for scheme tel \n \(err.localizedDescription)");return
+            }
+        }
     }
 }

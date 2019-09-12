@@ -67,7 +67,6 @@ class ReviewVC: UIViewController {
             self.grouped?.transform = CGAffineTransform.identity
         })
         
-        // Solution to Exercise #2
         UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.3, options: .curveEaseInOut, animations: {
             
             self.closedButton.transform = CGAffineTransform.identity
@@ -76,7 +75,9 @@ class ReviewVC: UIViewController {
         
     }
     
-    func setupViews()  {
+    //MARK: -user methods
+    
+    fileprivate func setupViews()  {
         reviewLabel.constrainHeight(constant: 60)
         reviewLabel.backgroundColor = .gray
         grouped =   view.verticalStackView(arragedSubViews: restaurantImageView,reviewLabel,reviewButton1,reviewButton2,reviewButton3, spacing: 8, distribution: .fillProportionally, axis: .vertical)
@@ -90,7 +91,7 @@ class ReviewVC: UIViewController {
     
     
     
-    func createButtons(title:String,tag:Int) -> UIButton {
+    fileprivate  func createButtons(title:String,tag:Int) -> UIButton {
         let  bt = UIButton(title: title, titleColor: .white, font: .systemFont(ofSize: 16), backgroundColor: .orange, target: self, action: #selector(handleChossen))
         bt.tag = tag
         bt.layer.cornerRadius = 8
@@ -98,14 +99,14 @@ class ReviewVC: UIViewController {
         return bt
     }
     
-    func setupBlur()  {
+    fileprivate  func setupBlur()  {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         backgroundImageView.addSubview(blurEffectView)
     }
     
-    func setupAnimation()  {
+    fileprivate  func setupAnimation()  {
         let scaleTransform = CGAffineTransform.init(scaleX: 0, y: 0)
         let translateTransform = CGAffineTransform.init(translationX: 0, y: -1000)
         let combineTransform = scaleTransform.concatenating(translateTransform)
@@ -115,18 +116,20 @@ class ReviewVC: UIViewController {
         closedButton.transform = CGAffineTransform.init(translationX: 1000, y: 0)
     }
     
-  @objc  func handleClose()  {
-       dismiss(animated: true)
+    //TODO: -handle methods
+    
+    @objc fileprivate func handleClose()  {
+        dismiss(animated: true)
     }
     
-  @objc  func handleChossen(sender:UIButton)  {
-    guard let text = sender.titleLabel?.text  else { return  }
-    switch sender.tag {
-    case 1,2,3:
-        delgate?.getRating(rate:text )
-    default:
-        return
-    }
-    dismiss(animated: true, completion: nil)
+    @objc fileprivate func handleChossen(sender:UIButton)  {
+        guard let text = sender.titleLabel?.text  else { return  }
+        switch sender.tag {
+        case 1,2,3:
+            delgate?.getRating(rate:text )
+        default:
+            return
+        }
+        dismiss(animated: true, completion: nil)
     }
 }

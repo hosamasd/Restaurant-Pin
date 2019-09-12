@@ -18,6 +18,7 @@ class FullyFunctionalMapVC: UIViewController {
         mp.showsTraffic = true
         return mp
     }()
+    fileprivate let gecoder = CLGeocoder()
     let restaurant:Restaurant
     init(rest:Restaurant){
         self.restaurant = rest
@@ -30,36 +31,35 @@ class FullyFunctionalMapVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        loadData()
+        loadMapUsingGecoder()
     }
     
-    func loadData()  {
+    //MARK: -user methods
+    
+    fileprivate  func loadMapUsingGecoder()  {
         
-            let gecoder = CLGeocoder()
-        
-            
         gecoder.geocodeAddressString(restaurant.location ?? "") { (placemarks, err) in
-                guard  let place = placemarks?.first?.location else {return}
-                
-                 let annotation = MKPointAnnotation()
-                annotation.coordinate = place.coordinate
-                annotation.title = self.restaurant.name
-                annotation.subtitle = self.restaurant.type
-                
-                self.mapView.showAnnotations([annotation], animated: true)
-                self.mapView.selectAnnotation(annotation, animated: true)
-//                let region = MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 250, longitudinalMeters: 250)
-//                self.mapView.setRegion(region, animated: true)
-            }
+            guard  let place = placemarks?.first?.location else {return}
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = place.coordinate
+            annotation.title = self.restaurant.name
+            annotation.subtitle = self.restaurant.type
+            
+            self.mapView.showAnnotations([annotation], animated: true)
+            self.mapView.selectAnnotation(annotation, animated: true)
+        }
         
     }
     
-    func setupViews()  {
+    fileprivate  func setupViews()  {
         view.addSubViews(views: mapView)
         
         mapView.fillSuperview()
     }
 }
+
+//MARK: -extensions
 
 extension FullyFunctionalMapVC: MKMapViewDelegate{
     
@@ -79,7 +79,6 @@ extension FullyFunctionalMapVC: MKMapViewDelegate{
         leftIcon.image = UIImage(data: restaurant.image ?? Data())
         annotaionView?.leftCalloutAccessoryView = leftIcon
         annotaionView?.tintColor = UIColor.orange
-//        annotaionView.pinTintColor = .blue
         
         return annotaionView
     }

@@ -49,32 +49,31 @@ class CreateRestaurantVC: UITableViewController {
             }
             return cell
         }else if indexPath.row == 5  {
-           let cell = tableView.dequeueReusableCell(withIdentifier: thirdCelllID, for: indexPath) as! CreatQuestCell
-            cell.fieldLabel.text = "Have Youy Been Here?"
+            let cell = tableView.dequeueReusableCell(withIdentifier: thirdCelllID, for: indexPath) as! CreatQuestCell
+            cell.fieldLabel.text = "Have You Been Here?"
             cell.beenVisited = { v in
                 self.isBeenVisited = v
             }
             return cell
         }else {
-          let  cell = tableView.dequeueReusableCell(withIdentifier: secondCelllID, for: indexPath) as! CreateFieldsCell
-          
-//            cell.valueLabel.addTarget(self, action: #selector(handelText), for: .editingChanged)
+            let  cell = tableView.dequeueReusableCell(withIdentifier: secondCelllID, for: indexPath) as! CreateFieldsCell
+            
             // Configure the cell...
             switch indexPath.row {
             case 1:
                 cell.fieldLabel.text = "Name"
-                 cell.valueLabel.placeholder = placeholdersText[0]
+                cell.valueLabel.placeholder = placeholdersText[0]
             case 2:
                 cell.fieldLabel.text = "Type"
                 cell.valueLabel.placeholder = placeholdersText[1]
             case 3:
                 cell.fieldLabel.text = "Location"
-                 cell.valueLabel.placeholder = placeholdersText[2]
+                cell.valueLabel.placeholder = placeholdersText[2]
             case 4:
                 cell.fieldLabel.text = "Phone"
                 cell.valueLabel.keyboardType = .phonePad
-                 cell.valueLabel.placeholder = placeholdersText[3]
-            
+                cell.valueLabel.placeholder = placeholdersText[3]
+                
             default:
                 cell.fieldLabel.text = ""
                 cell.valueLabel.text = ""
@@ -84,17 +83,17 @@ class CreateRestaurantVC: UITableViewController {
         
     }
     
+    //MARK: User methods
+    
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         dismissKeyboard()
     }
     
-    @objc func dismissKeyboard(){
-        self.view.endEditing(true)
-    }
+    
     
     func setupNavigationItems()  {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handelCancel))
-         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handelSave))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handelSave))
     }
     
     func setupImagePicker()  {
@@ -108,7 +107,7 @@ class CreateRestaurantVC: UITableViewController {
     func setupTableView()  {
         tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         tableView.keyboardDismissMode = .interactive
-         tableView = UITableView(frame: self.tableView.frame, style: .grouped)
+        tableView = UITableView(frame: self.tableView.frame, style: .grouped)
         tableView.backgroundColor = .gray
         tableView.register(PickedPhototCell.self, forCellReuseIdentifier: cellID)
         tableView.register(CreateFieldsCell.self, forCellReuseIdentifier: secondCelllID)
@@ -121,40 +120,30 @@ class CreateRestaurantVC: UITableViewController {
         for x in 1...4 {
             let index = IndexPath(row: x, section: 0)
             let cell = tableView.cellForRow(at: index) as! CreateFieldsCell
-           guard let val = cell.valueLabel.text, !val.isEmpty  else {showAlert()  ; return }
+            guard let val = cell.valueLabel.text, !val.isEmpty  else {showAlertFields()  ; return }
             indexs.append(val)
         }
         
         saveInDatabase(index: indexs, visited: isBeenVisited, image: self.images ?? #imageLiteral(resourceName: "photoalbum"))
-        print(indexs)
     }
     
     func saveInDatabase(index: [String],visited:Bool,image:UIImage)  {
-        let rest = Restaurant(context: context)
-        rest.name = index[0]
-        rest.type = index[1]
-        rest.location = index[2]
-        rest.phone = index[3]
-        rest.isVisited = visited
         
-        let data = image.pngData()
-        rest.image = data
-        
-        do {
-            try context.save()
-            print("saved")
-        } catch let err {
-            print(err.localizedDescription)
+        CoreDataServices.shared.createNewRestaruant(index: index, visited: visited, image: image) { (err) in
+            if let err = err {
+                print(err.localizedDescription);return
+            }
         }
     }
     
     func makeDefaultValues()  {
+        
         view.endEditing(true)
         isBeenVisited = false
         for x in 1...4 {
             let index = IndexPath(row: x, section: 0)
             let cell = tableView.cellForRow(at: index) as! CreateFieldsCell
-           cell.valueLabel.text = ""
+            cell.valueLabel.text = ""
             cell.valueLabel.placeholder = placeholdersText[x - 1]
         }
         let index = IndexPath(row: 5, section: 0)
@@ -166,47 +155,41 @@ class CreateRestaurantVC: UITableViewController {
         cells.restaurantImageView.image = #imageLiteral(resourceName: "photoalbum")
     }
     
-   @objc func handelCancel()  {
+    //TODO: -handle methods
+    
+    @objc func dismissKeyboard(){
+        self.view.endEditing(true)
+    }
+    
+    @objc func handelCancel()  {
         navigationController?.popViewController(animated: true)
     }
     
-   @objc func handelSave()  {
+    @objc func handelSave()  {
         checkData()
-    makeDefaultValues()
+        makeDefaultValues()
     }
 }
 
-extension CreateRestaurantVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+//MARK: -extensions
 
+extension CreateRestaurantVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
     func imagePickerController (_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0) ) as! PickedPhototCell
         if let img = info[.originalImage] as? UIImage {
             
-                cell.restaurantImageView.image = img
-            self.images = img
-//             cell.restaurantImageView.fillSuperview()
-            
-        }
-        if let img = info[.editedImage] as? UIImage {
             cell.restaurantImageView.image = img
             self.images = img
-//            cell.restaurantImageView.fillSuperview()
+            
+        }
+        if let img = info[.editedImage] as? UIImage { //for image editing
+            cell.restaurantImageView.image = img
+            self.images = img
         }
         
         dismiss(animated: true)
     }
-
-    func showAlert()  {
-        let alert = UIAlertController(title: "Alert", message: "all fields are required to be filled in", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)
-    }
-}
-
-extension CreateRestaurantVC: UITextFieldDelegate {
     
     
-    
-  
 }

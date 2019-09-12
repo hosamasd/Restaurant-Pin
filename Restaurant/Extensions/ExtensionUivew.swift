@@ -447,3 +447,10 @@ extension Double {
         return string + dateString
     }
 }
+
+extension UIApplication {
+    
+    static func getMainTabBarController() -> MainTabBarVC? {
+        return shared.keyWindow?.rootViewController as? MainTabBarVC
+    }
+}

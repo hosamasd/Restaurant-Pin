@@ -24,9 +24,7 @@ class AboutVC: UITableViewController {
        return img
     }()
      let label = UILabel(text: "Built By \n HOSAM".localized, font: .systemFont(ofSize: 18), textColor: .black,textAlignment: .left,numberOfLines: 2)
-    var sectionTitles = ["","Leave Feedback", "Follow Us"," Language"]
-    var sectionContent = [["",""],["Rate us on App Store", "Tell us your feedback"],
-                          ["GitHub", "Facebook", "LinkedIn"],["change Language"]]
+    var sectionTitles = ["","Leave Feedback", "Follow Us","Language"]
     var links = ["https://github.com/hosamasd?tab=repositories", "https://www.facebook.com/hosammohamedasd", "https://www.linkedin.com/in/hosam-mohamed-425a83119/"]
     
     lazy var headerView:UIView = {
@@ -47,7 +45,7 @@ class AboutVC: UITableViewController {
    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -96,13 +94,13 @@ class AboutVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 0 :  sectionContent[section ].count
-//        return section == 0 ? 0 : section == 1  ? 2 :  3
+        return section == 0 ? 0 :  section == 1  ? 2 :  section == 2 ? 3 : 1
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! AboutCell
@@ -129,19 +127,15 @@ class AboutVC: UITableViewController {
             } else {
                 cell.fieldLabel.text = "LinkedIn".localized
             }
-//
-            
         }
-        
-        print(cell.fieldLabel.text)
-//        cell.backgroundColor = .red
         return cell
     }
+    
+   // MARK: -user methods
     
     func setupViews()  {
         tableView.backgroundColor = .white
         tableView.tableFooterView = UIView()
-//       tableView = UITableView(frame: self.tableView.frame, style: .grouped)
         tableView.register(AboutCell.self, forCellReuseIdentifier: cellID)
     }
 }
