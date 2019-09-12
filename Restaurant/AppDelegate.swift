@@ -12,7 +12,7 @@ import MOLH
 import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable{
+class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable, UNUserNotificationCenterDelegate{
 
     var window: UIWindow?
 
@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable{
         
         MOLH.shared.activate(true)
 
+        UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) { (gran, err) in
             if gran {
                 print("user notification are allowed")
@@ -42,6 +43,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable{
         return true
     }
 
+    // MARK: - User Notifications
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.actionIdentifier == "foodpin.makeReservation" {
+            print("Make reservation...")
+            if let phone = response.notification.request.content.userInfo["phone"] {
+                let telURL = "tel://\(phone)"
+                if let url = URL(string: telURL) {
+                    if UIApplication.shared.canOpenURL(url) {
+                        print("calling \(telURL)")
+                        UIApplication.shared.open(url)
+                    }
+                }
+            }
+        }
+        
+        completionHandler()
+    }
+    
     func reset() {
         checkIntroPassed() 
 //        let rootviewcontroller: UIWindow = ((UIApplication.shared.delegate?.window)!)!
