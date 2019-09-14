@@ -138,11 +138,10 @@ extension RestaurantHomeVC: UISearchResultsUpdating, UISearchBarDelegate{
     
      
         
-    func createAlert(index:Int)  {
+  fileprivate  func createAlert(index:Int)  {
          let rests = restaurantsArray[index]
         let alert = UIAlertController(title: "Restaurant Pin".localized, message: "choose action".localized, preferredStyle: .actionSheet)
         let display = UIAlertAction(title: "Display".localized, style: .default) { [weak self] (_) in
-//            guard let res = self?.restaurantsArray[index] else {return}
             
             let detail = RestaurantDetailsVC(rest: rests)
             self?.navigationController?.pushViewController(detail, animated: true)

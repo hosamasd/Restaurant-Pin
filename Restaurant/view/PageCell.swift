@@ -34,7 +34,7 @@ class PageCell: UICollectionViewCell {
         la.constrainHeight(constant: 40)
         return la
     }()
-    let pageDescriptionLabel = UILabel(text: "location \n fdgfd \n dfgdf", font: .systemFont(ofSize: 16), textColor: .gray,textAlignment: .center,numberOfLines: 0)
+    let pageDescriptionLabel = UILabel(text: "location \n fdgfd \n dfgdf", font: .systemFont(ofSize: 16), textColor: .white,textAlignment: .center,numberOfLines: 0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

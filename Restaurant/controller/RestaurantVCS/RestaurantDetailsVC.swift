@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import MOLH
 
-class RestaurantDetailsVC: UITableViewController {
+class RestaurantDetailsVC: BaseTableVC {
     
     let detailView = DetailStackView()
     
@@ -50,8 +50,6 @@ class RestaurantDetailsVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeAnnotation()
-        setupTableView()
-        setupNavigationItem()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -145,21 +143,22 @@ class RestaurantDetailsVC: UITableViewController {
         }
     }
     
-  fileprivate  func setupNavigationItem()  {
+    override func setupNavigationItems() {
         navigationItem.title = restaurant.name
     }
     
-   fileprivate func setupTableView()  {
+    override func setuptableViews() {
         tableView.backgroundColor = .white
         tableView.register(RestaurantDetailsCell.self, forCellReuseIdentifier: cellID)
     }
+    
     
     //TODO: -handle methods
     
     @objc fileprivate func handleFullMap()  {
         let fullMap = FullyFunctionalMapVC(rest: restaurant)
-        
-        navigationController?.pushViewController(fullMap, animated: true)
+        present(fullMap, animated: true)
+//        navigationController?.pushViewController(fullMap, animated: true)
     }
     
     @objc fileprivate func handleSelectItem()  {

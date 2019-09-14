@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CreateRestaurantVC: UITableViewController {
+class CreateRestaurantVC: BaseTableVC {
     let cellID = "cellID"
     let secondCelllID = "secondCelllID"
     let thirdCelllID = "CelllID"
@@ -21,11 +21,7 @@ class CreateRestaurantVC: UITableViewController {
     
     var images:UIImage?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTableView()
-        setupNavigationItems()
-    }
+    
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,7 +87,8 @@ class CreateRestaurantVC: UITableViewController {
     
     
     
-    func setupNavigationItems()  {
+    override func setupNavigationItems()  {
+        navigationItem.title = "New Restaurant"
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handelCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handelSave))
     }
@@ -104,7 +101,8 @@ class CreateRestaurantVC: UITableViewController {
         present(imagePicker, animated: true)
     }
     
-    func setupTableView()  {
+    override func setuptableViews() {
+        
         tableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         tableView.keyboardDismissMode = .interactive
         tableView = UITableView(frame: self.tableView.frame, style: .grouped)
@@ -113,6 +111,7 @@ class CreateRestaurantVC: UITableViewController {
         tableView.register(CreateFieldsCell.self, forCellReuseIdentifier: secondCelllID)
         tableView.register(CreatQuestCell.self, forCellReuseIdentifier: thirdCelllID)
     }
+    
     
     func checkData()  {
         var indexs:[String] = [String]()

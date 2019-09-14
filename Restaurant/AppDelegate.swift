@@ -23,9 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable, UNUserNot
         window?.makeKeyAndVisible()
         
         checkIntroPassed()
-//         let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        window?.rootViewController = WelcomePageVC(collectionViewLayout: UICollectionViewFlowLayout())
         
     UINavigationBar.appearance().barTintColor = UIColor.init(r: 216, g: 74, b: 32)  
         UINavigationBar.appearance().tintColor = UIColor.white
@@ -71,10 +68,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate , MOLHResetable, UNUserNot
     }
     
     func checkIntroPassed()  {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         let isPassed:Bool = UserDefaults.standard.object(forKey: "passIntro") as? Bool ?? false
         
         let tabs = MainTabBarVC()
-        window?.rootViewController = isPassed ? tabs : WelcomePageVC()
+        window?.rootViewController = isPassed ? tabs : WelcomePageVC(collectionViewLayout: layout)
         
     }
     

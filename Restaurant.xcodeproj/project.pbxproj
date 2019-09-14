@@ -11,6 +11,9 @@
 		4E5FACC62325422A00F4BB71 /* RestaurantDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */; };
 		4E5FACC82325423E00F4BB71 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5FACC72325423E00F4BB71 /* BaseVC.swift */; };
 		4E5FACCA232543FB00F4BB71 /* RestaurantDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5FACC9232543FB00F4BB71 /* RestaurantDetailsCell.swift */; };
+		4E620404232D0E9E00B824F9 /* RoutableDirectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E620403232D0E9E00B824F9 /* RoutableDirectionVC.swift */; };
+		4E620406232D0F0500B824F9 /* RouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E620405232D0F0500B824F9 /* RouteCell.swift */; };
+		4E620408232D15A500B824F9 /* BaseTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E620407232D15A500B824F9 /* BaseTableVC.swift */; };
 		4E649611232683620034172D /* RestaurantsCored.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4E64960F232683620034172D /* RestaurantsCored.xcdatamodeld */; };
 		4E75C3DC2329227200D98BD0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E75C3DE2329227200D98BD0 /* Localizable.strings */; };
 		4E7BDD7523265EF700BFF0DC /* CreatQuestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7BDD7423265EF700BFF0DC /* CreatQuestCell.swift */; };
@@ -48,6 +51,9 @@
 		4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailsVC.swift; sourceTree = "<group>"; };
 		4E5FACC72325423E00F4BB71 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		4E5FACC9232543FB00F4BB71 /* RestaurantDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailsCell.swift; sourceTree = "<group>"; };
+		4E620403232D0E9E00B824F9 /* RoutableDirectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutableDirectionVC.swift; sourceTree = "<group>"; };
+		4E620405232D0F0500B824F9 /* RouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCell.swift; sourceTree = "<group>"; };
+		4E620407232D15A500B824F9 /* BaseTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableVC.swift; sourceTree = "<group>"; };
 		4E649610232683620034172D /* RestaurantsCored.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RestaurantsCored.xcdatamodel; sourceTree = "<group>"; };
 		4E75C3DD2329227200D98BD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4E75C3DF2329227C00D98BD0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -104,6 +110,19 @@
 				4E75C3DE2329227200D98BD0 /* Localizable.strings */,
 			);
 			path = localization;
+			sourceTree = "<group>";
+		};
+		4E7BEB0A232A900B001AE959 /* RestaurantVCS */ = {
+			isa = PBXGroup;
+			children = (
+				4E80472523251E5F00B277BA /* RestaurantHomeVC.swift */,
+				4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */,
+				4EA4D8F723263C4800B5C7AB /* FullyFunctionalMapVC.swift */,
+				4E620403232D0E9E00B824F9 /* RoutableDirectionVC.swift */,
+				4E7D832E23264C2C0076E4E4 /* CreateRestaurantVC.swift */,
+				4EDA0D842327A0180021BE6A /* ReviewVC.swift */,
+			);
+			path = RestaurantVCS;
 			sourceTree = "<group>";
 		};
 		4E7C3149232A409E000964B6 /* Services */ = {
@@ -174,14 +193,11 @@
 			isa = PBXGroup;
 			children = (
 				4E5FACC72325423E00F4BB71 /* BaseVC.swift */,
+				4E620407232D15A500B824F9 /* BaseTableVC.swift */,
 				4EB711492328D00900909749 /* MainTabBarVC.swift */,
 				4E94A6AA2328EDCB006786CB /* About US */,
 				4E7E1BE52327D22500CF6B1F /* PagesControllers */,
-				4E80472523251E5F00B277BA /* RestaurantHomeVC.swift */,
-				4E5FACC52325422A00F4BB71 /* RestaurantDetailsVC.swift */,
-				4EA4D8F723263C4800B5C7AB /* FullyFunctionalMapVC.swift */,
-				4E7D832E23264C2C0076E4E4 /* CreateRestaurantVC.swift */,
-				4EDA0D842327A0180021BE6A /* ReviewVC.swift */,
+				4E7BEB0A232A900B001AE959 /* RestaurantVCS */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -194,6 +210,7 @@
 				4E80473A23251F9700B277BA /* RestaurantCell.swift */,
 				4E5FACC9232543FB00F4BB71 /* RestaurantDetailsCell.swift */,
 				4E7D832C232643490076E4E4 /* DetailStackView.swift */,
+				4E620405232D0F0500B824F9 /* RouteCell.swift */,
 				4E7D833223264CF30076E4E4 /* Create */,
 				4E7E1BEA2327D5BA00CF6B1F /* PageCell.swift */,
 				4EB7114F2328DB7700909749 /* AboutCell.swift */,
@@ -369,6 +386,7 @@
 			files = (
 				4E7E1BE92327D35C00CF6B1F /* WelcomePageVC.swift in Sources */,
 				4E80472623251E5F00B277BA /* RestaurantHomeVC.swift in Sources */,
+				4E620408232D15A500B824F9 /* BaseTableVC.swift in Sources */,
 				4E80473B23251F9700B277BA /* RestaurantCell.swift in Sources */,
 				4EA4D8F823263C4800B5C7AB /* FullyFunctionalMapVC.swift in Sources */,
 				4EB7114A2328D00900909749 /* MainTabBarVC.swift in Sources */,
@@ -384,6 +402,7 @@
 				4E7D833423264F3A0076E4E4 /* BaseCell.swift in Sources */,
 				4E7C314B232A40B9000964B6 /* NotificationServices.swift in Sources */,
 				4E5FACC62325422A00F4BB71 /* RestaurantDetailsVC.swift in Sources */,
+				4E620404232D0E9E00B824F9 /* RoutableDirectionVC.swift in Sources */,
 				4E7C314D232A43B2000964B6 /* CoreDataServices.swift in Sources */,
 				4E5FACCA232543FB00F4BB71 /* RestaurantDetailsCell.swift in Sources */,
 				4E94A6AC2328EDE0006786CB /* FeedbackVC.swift in Sources */,
@@ -395,6 +414,7 @@
 				4E7D833623264F9B0076E4E4 /* CreateFieldsCell.swift in Sources */,
 				4E649611232683620034172D /* RestaurantsCored.xcdatamodeld in Sources */,
 				4E7D833123264CF00076E4E4 /* PickedPhototCell.swift in Sources */,
+				4E620406232D0F0500B824F9 /* RouteCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

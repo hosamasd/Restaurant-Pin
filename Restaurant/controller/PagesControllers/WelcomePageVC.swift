@@ -48,7 +48,6 @@ class WelcomePageVC: UICollectionViewController, UICollectionViewDelegateFlowLay
     }()
     
     var pageControlBottomAnchor: NSLayoutConstraint?
-    var skipButtonTopAnchor: NSLayoutConstraint?
     var nextButtonTopAnchor: NSLayoutConstraint?
     
     override func viewDidLoad() {
@@ -64,13 +63,6 @@ class WelcomePageVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         
          setupCollectionView()
     
-//        pageControlBottomAnchor = pageControl.anchor(nil, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 40)[1]
-//
-//        skipButtonTopAnchor = skipButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 60, heightConstant: 50).first
-//
-//        nextButtonTopAnchor = nextButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 60, heightConstant: 50).first
-        
-        //use autolayout instead
         collectionView.fillSuperview()
         
        
@@ -133,12 +125,6 @@ class WelcomePageVC: UICollectionViewController, UICollectionViewDelegateFlowLay
         view.addSubview(bottomControlsStackView)
         
         bottomControlsStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 0, left: 0, bottom: 0, right: 0),size: .init(width: 0, height: 50))
-//        NSLayoutConstraint.activate([
-//            bottomControlsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//            bottomControlsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//            bottomControlsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//            bottomControlsStackView.heightAnchor.constraint(equalToConstant: 50)
-//            ])
     }
     
     func setupCollectionView()  {
@@ -161,44 +147,14 @@ sender.setTitle("NEXT", for: .normal)
         let indexPath = IndexPath(item: nextIndex, section: 0)
         pageControl.currentPage = nextIndex
         collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-//        currentPage += 1
-//        print(currentPage)
-//        if currentPage > 2 {
-//            sender.setTitle("DONE", for: .normal)
-//            sender.addTarget(self, action: #selector(handleNextVC), for: .touchUpInside)
-//        }else {
-//            sender.setTitle("NEXT", for: .normal)
-//        let nextIndex = min(pageControl.currentPage + 1, pages.count - 1)
-//        let indexPath = IndexPath(item: nextIndex, section: 0)
-//        pageControl.currentPage = nextIndex
-//        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        
-//        currentPage += 1
-//    if currentPage == pages.count-1 {
-//        sender.setTitle("DONE", for: .normal)
-//        sender.addTarget(self, action: #selector(handleNextVC), for: .touchUpInside)
-//    }else {
-//
-//
-//    pageControl.currentPage = currentPage
-//
-//        let index = IndexPath(item: currentPage, section: 0)
-//        let cell = collectionView.cellForItem(at: index) as! PageCell
-//        cell.page = pages[currentPage]
-      
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//            self.view.layoutIfNeeded()
-//        }, completion: nil)
-        
     }
     
    @objc func handleNextVC()  {
     UserDefaults.standard.set(true, forKey: "passIntro")
-    let layout = UICollectionViewFlowLayout()
     
-        let home = RestaurantHomeVC(collectionViewLayout: layout)
-    let nav = UINavigationController(rootViewController: home)
-    present(nav, animated: true)
+        let main = MainTabBarVC()
+   
+    present(main, animated: true)
     
     }
 }
