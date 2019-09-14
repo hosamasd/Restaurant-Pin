@@ -36,6 +36,16 @@ class FullyFunctionalMapVC: UIViewController {
         bt.addTarget(self, action: #selector(handleDirection), for: .touchUpInside)
         return bt
     }()
+    lazy var nearByButton:UIButton = {
+        let bt = UIButton(type: .system)
+        bt.setTitle("Nearby", for: .normal)
+        bt.constrainHeight(constant: 50)
+        bt.constrainWidth(constant: 60)
+        bt.titleLabel?.textColor = .white
+        bt.backgroundColor = .orange
+        bt.addTarget(self, action: #selector(handleNearest), for: .touchUpInside)
+        return bt
+    }()
     lazy var segementedController:UISegmentedControl = {
         let items = ["Car", "Walking"]
         let sg = UISegmentedControl(items: items)
@@ -111,12 +121,13 @@ class FullyFunctionalMapVC: UIViewController {
     }
     
     fileprivate  func setupViews()  {
-        view.addSubViews(views: mapView,closeButton,directionButton,segementedController)
+        view.addSubViews(views: mapView,closeButton,directionButton,nearByButton,segementedController)
         
         
         mapView.fillSuperview()
     closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 40, left: 0, bottom: 0, right: 16))
         directionButton.anchor(top: closeButton.bottomAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 8, left: 0, bottom: 0, right: 16))
+         nearByButton.anchor(top: directionButton.bottomAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor,padding: .init(top: 8, left: 0, bottom: 0, right: 16))
         segementedController.anchor(top: nil, leading: nil, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor,padding: .init(top: 0, left: 0, bottom: 16, right: 16))
     }
     
@@ -163,6 +174,36 @@ class FullyFunctionalMapVC: UIViewController {
     }
     sender.isHide(false)
     }
+    
+    @objc func handleNearest()  {
+        
+        let searchRequest = MKLocalSearch.Request()
+        searchRequest.naturalLanguageQuery = restaurant.type
+        searchRequest.region = mapView.region
+        
+        let localSearch = MKLocalSearch(request: searchRequest)
+        localSearch.start { (response, error) -> Void in
+            guard let response = response else { if let error = error {print(error)};return}
+            
+            
+            let mapItems = response.mapItems
+            var nearbyAnnotations: [MKAnnotation] = []
+            if mapItems.count > 0 {
+                for item in mapItems {
+                    // Add annotation
+                    let annotation = MKPointAnnotation()
+                    annotation.title = item.name
+                    annotation.subtitle = item.phoneNumber
+                    if let location = item.placemark.location {
+                        annotation.coordinate = location.coordinate
+                    }
+                    nearbyAnnotations.append(annotation)
+                }
+            }
+            
+            self.mapView.showAnnotations(nearbyAnnotations, animated: true)
+        }
+    }
 }
 
 //MARK: -extensions
@@ -199,13 +240,8 @@ extension FullyFunctionalMapVC: MKMapViewDelegate{
         present(nav, animated: true, completion: nil)
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        print(54545)
-//        guard let routes = self.currentRoute?.steps else { return  }
-//        let route = RoutableDirectionVC(routes:routes )
-//        let nav = UINavigationController(rootViewController: route)
-//        present(nav, animated: true, completion: nil)
-    }
+  
+    
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
